@@ -3,30 +3,27 @@ package com.example.myapplication
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
 import com.example.myapplication.util.ResProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
+import java.util.EnumSet.of
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel //TODO viewModel
+    private val viewModel by viewModels<MainViewModel> { MainViewModelFactory(ResProvider(this)) }
     //kotlin property delegate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val resProvider = ResProvider(this)
-        val factory = MainViewModelFactory(resProvider)
-        viewModel = ViewModelProviders.of(this, factory).get(MainViewModel::class.java)
-
-
-        findViewById<FloatingActionButton>(R.id.fab)
-            .setOnClickListener {
-                showData()
-            }
+            findViewById<FloatingActionButton>(R.id.fab)
+                .setOnClickListener {
+                    showData()
+                }
         listenData()
     }
 
